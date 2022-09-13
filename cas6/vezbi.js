@@ -73,5 +73,75 @@ const addAnimals = () => {
 const generateListOfAnimalsHtml = (animalsArray) => {
     const htmlContainer = document.getElementById('container');
     // if the UL already exists, remove it and re-generate it again
-    const listOfAnimals = document
+    const listOfAnimals = document.getElementById('listOfAnimals');
+    if (listOfAnimals) {
+        listOfAnimals.remove();
+    }
+
+    const htmlList = document.createElement('ul');
+    htmlList.id = 'listOfAnimals';
+    htmlContainer.appendChild(htmlList);
+
+    animalsArray.forEach(animal => {
+        const htmlItem = document.createElement('li');
+        htmlItem.textContent = `${animal.type} - ${Number(animal.number)} number of species`;
+        htmlList.appendChild(htmlItem);
+    })
 }
+
+// pri vcituvanje na aplikacijata da se prevzeme listata na zivotni od local storage i da se generira html
+generateListOfAnimalsHtml(JSON.parse(localStorage.getItem('animals')));
+
+
+function search (value) {
+    value = value.toLowerCase().trim();
+    const initialList = JSON.parse(localStorage.getItem('animals'));
+
+    const filteredList = initialList.filter((animal) => {
+        // String.includes; Array.includes
+
+        if (animal.type.includes(value)) {
+            return true
+        }
+        return false
+    })
+
+   generateListOfAnimalsHtml(filteredList)
+}
+
+  /* ALTERNATIVNI RESHENIJA
+  const filteredList = []
+  for (let i = 0; i < initialList.length; i++) {
+    if (initialList[i].type.includes(value)) {
+      filteredList.push(initialList[i])
+    }
+  }
+  
+  for (const animal of intialList) {
+    if (animal.type.includes(value)) {
+      filteredList.push(animal)
+    }
+  }
+
+  intialList.forEach((animal) => {
+    if (animal.type.includes(value)) {
+      filteredList.push(animal)
+    }
+  })
+  */
+
+function reset () {
+    document.getElementById('search').value = '';
+    generateListOfAnimalsHtml(JSON.parse(localStorage.getItem('animals')));
+}
+
+function convertStringBackToArray () {
+    ['a', 'b', 'c', 'd'].includes('a');
+
+    console.log("Hello Semos".split(' '))
+    console.log("Hello Semos".split())
+    
+    ['a', 'b', 'c', 'd'].join('');
+    ['a', 'b', 'c', 'd'].join('%');
+}
+
